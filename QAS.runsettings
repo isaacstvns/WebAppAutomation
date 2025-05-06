@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+	<MSTest>
+		<Parallelize>
+			<Workers>06</Workers>
+			<Scope>MethodLevel</Scope>
+		</Parallelize>
+	</MSTest>
+	<TestRunParameters>
+		<Parameter name="webAppUrl" value="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"/>
+		<Parameter name="username" value="Admin" />
+		<Parameter name="password" value="admin123" />
+		<Parameter name="invalidpassword" value="admin1234" />
+		<Parameter name="quickLaunchLabels" value="Assign Leave,Leave List,Timesheets,Apply Leave,My Leave,My Timesheet" />
+	</TestRunParameters>
+</RunSettings>
