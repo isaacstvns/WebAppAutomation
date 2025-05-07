@@ -1,8 +1,11 @@
 trigger:
-- master  # or your main branch name
+- master
 
 pool:
-  vmImage: 'windows-latest'  # Windows is needed for Selenium
+  vmImage: 'windows-latest'
+  demands:  # Add this to ensure no parallel execution
+    - msbuild
+    - visualstudio
 
 variables:
   buildConfiguration: 'Release'
@@ -12,7 +15,7 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '8.0.x'  # Match your project's .NET version
+    version: '8.0.x'
 
 - task: NuGetToolInstaller@1
 
@@ -25,6 +28,7 @@ steps:
     solution: '**/*.sln'
     configuration: $(buildConfiguration)
     msbuildArgs: '/p:DeployOnBuild=true'
+    maximumCpuCount: 1  # Disable parallel building
 
 - task: VSTest@2
   inputs:
@@ -35,7 +39,8 @@ steps:
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
     runSettingsFile: 'QAS.runsettings'
-    runInParallel: false  # Explicitly disable parallel test execution
+    runInParallel: false
+    parallelExecutionType: 'none'  # Explicitly disable parallel test execution
     configuration: $(buildConfiguration)
     testRunTitle: $(testRunTitle)
     diagnosticsEnabled: true
