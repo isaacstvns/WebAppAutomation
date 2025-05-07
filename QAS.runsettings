@@ -1,11 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RunSettings>
-	<MSTest>
-		<Parallelize>
-			<Workers>06</Workers>
-			<Scope>MethodLevel</Scope>
-		</Parallelize>
-	</MSTest>
 	<TestRunParameters>
 		<Parameter name="webAppUrl" value="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"/>
 		<Parameter name="username" value="Admin" />
