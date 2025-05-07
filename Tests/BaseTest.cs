@@ -20,7 +20,7 @@ namespace WebAppAutomation.Tests
         {
             var factory = new WebDriverFactory();
 
-            Driver = factory.Create(BrowserType.Edge);
+            Driver = factory.Create(BrowserType.Chrome);
 
             var url = TestContext.Properties["webAppUrl"].ToString();
             Driver.Navigate().GoToUrl(url);
