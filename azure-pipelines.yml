@@ -1,47 +1,30 @@
 trigger:
-- master
+- main  # or your working branch name
 
 pool:
   name: Default
-  demands:  # Add this to ensure no parallel execution
-    - msbuild
-    - visualstudio
-
-variables:
-  buildConfiguration: 'Release'
-  testRunTitle: 'QA Automation Test Run'
-  headless_mode: 'true'
+  demands: []  # Override to avoid Visual Studio demands
 
 steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
     version: '8.0.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+  displayName: 'Install .NET SDK'
 
-- task: NuGetToolInstaller@1
+- script: dotnet restore
+  displayName: 'Restore dependencies'
 
-- task: NuGetCommand@2
+- script: dotnet build --configuration Release
+  displayName: 'Build solution'
+
+- script: dotnet test --configuration Release --logger trx
+  displayName: 'Run tests'
+  
+- task: PublishTestResults@2
   inputs:
-    restoreSolution: '**/*.sln'
-
-- task: VSBuild@1
-  inputs:
-    solution: '**/*.sln'
-    configuration: $(buildConfiguration)
-    msbuildArgs: '/p:DeployOnBuild=true'
-    maximumCpuCount: 1  # Disable parallel building
-
-- task: VSTest@2
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*test*.dll
-      !**\*TestAdapter.dll
-      !**\obj\**
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    runSettingsFile: 'QAS.runsettings'
-    runInParallel: false
-    parallelExecutionType: 'none'  # Explicitly disable parallel test execution
-    configuration: $(buildConfiguration)
-    testRunTitle: $(testRunTitle)
-    diagnosticsEnabled: true
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/TestResults/*.trx'
+  condition: succeededOrFailed()
+  displayName: 'Publish Test Results'
