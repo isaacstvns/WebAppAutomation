@@ -1,19 +1,18 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- master  # or change to your branch name
+- master  # or your main branch name
 
 pool:
-  vmImage: 'windows-latest'  # Use Windows since you're testing with Selenium + MSTest
+  vmImage: 'windows-latest'  # Windows is needed for Selenium
+
+variables:
+  buildConfiguration: 'Release'
+  testRunTitle: 'QA Automation Test Run'
 
 steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '8.0.x'  # or your project's .NET SDK version
+    version: '8.0.x'  # Match your project's .NET version
 
 - task: NuGetToolInstaller@1
 
@@ -24,7 +23,8 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '**/*.sln'
-    msbuildArgs: '/p:DeployOnBuild=true /p:Configuration=Release'
+    configuration: $(buildConfiguration)
+    msbuildArgs: '/p:DeployOnBuild=true'
 
 - task: VSTest@2
   inputs:
@@ -34,6 +34,8 @@ steps:
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
-    runSettingsFile: 'QAS.runsettings'  # Make sure the file is committed
+    runSettingsFile: 'QAS.runsettings'
+    runInParallel: false  # Explicitly disable parallel test execution
+    configuration: $(buildConfiguration)
+    testRunTitle: $(testRunTitle)
     diagnosticsEnabled: true
-
