@@ -29,13 +29,15 @@ namespace WebAppAutomation.Resource
             options.AddExcludedArgument("enable-automation");
             options.AddAdditionalOption("useAutomationExtension", false);
             options.AddArgument("--start-maximized");
+            options.AddArgument("--disable-gpu");
+            options.AddArgument("--no-sandbox");
 
-            bool headless = string.Equals(System.Environment.GetEnvironmentVariable("headless_mode"), "true", System.StringComparison.OrdinalIgnoreCase);
+            //bool headless = string.Equals(System.Environment.GetEnvironmentVariable("headless_mode"), "true", System.StringComparison.OrdinalIgnoreCase);
 
-            if (headless)
-            {
-                options.AddArgument("--headless=new");
-            }
+            //if (headless)
+            //{
+            //    options.AddArgument("--headless=new");
+            //}
             return new ChromeDriver(options);
         }
 

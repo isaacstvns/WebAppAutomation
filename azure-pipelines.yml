@@ -1,42 +1,35 @@
-# azure-pipelines.yml — MSTest + Selenium (.NET) on self-hosted Windows agent
-
 trigger:
 - master
 
 pool:
   name: Default
 
-variables:
-  BuildConfiguration: Release
-
 steps:
 - checkout: self
   clean: true
 
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'
+
 - task: DotNetCoreCLI@2
   displayName: Restore
   inputs:
-    command: 'restore'
+    command: restore
     projects: '**/WebAppAutomation.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
-    command: 'build'
+    command: build
     projects: '**/WebAppAutomation.csproj'
-    arguments: '--configuration $(BuildConfiguration)'
+    arguments: '--configuration Release'
 
 - task: DotNetCoreCLI@2
   displayName: Test
   inputs:
-    command: 'test'
+    command: test
     projects: '**/WebAppAutomation.csproj'
-    arguments: '--configuration $(BuildConfiguration) --settings "$(Build.SourcesDirectory)/QAS.runsettings"'
-    publishTestResults: false
-
-- task: PublishTestResults@2
-  displayName: Publish Test Results
-  inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '$(Agent.TempDirectory)/*.trx'
-  condition: succeededOrFailed()
+    arguments: '--configuration Release --settings "$(Build.SourcesDirectory)/QAS.runsettings"'
+    publishTestResults: true
