@@ -31,11 +31,12 @@ steps:
   inputs:
     command: 'test'
     projects: '**/WebAppAutomation.csproj'
-    arguments: '--configuration $(BuildConfiguration) --settings "$(Build.SourcesDirectory)/QAS.runsettings" --logger "trx;LogFileName=TestResults.trx" --results-directory "$(Common.TestResultsDirectory)"'
+    arguments: '--configuration $(BuildConfiguration) --settings "$(Build.SourcesDirectory)/QAS.runsettings"'
+    publishTestResults: false
 
 - task: PublishTestResults@2
   displayName: Publish Test Results
   inputs:
     testResultsFormat: 'VSTest'
-    testResultsFiles: '$(Common.TestResultsDirectory)/*.trx'
+    testResultsFiles: '$(Agent.TempDirectory)/*.trx'
   condition: succeededOrFailed()
