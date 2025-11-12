@@ -22,8 +22,8 @@ namespace WebAppAutomation.Tests
 
             Driver = factory.Create(BrowserType.Chrome);
 
-            var url = TestContext.Properties["webAppUrl"].ToString();
-            Driver.Navigate().GoToUrl(url);
+            //var url = TestContext.Properties["webAppUrl"].ToString();
+            Driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
         }
         
         [TestCleanup]

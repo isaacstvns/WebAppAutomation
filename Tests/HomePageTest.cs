@@ -19,7 +19,7 @@ namespace WebAppAutomation.Tests
         {
             LoginPage = new LoginPage(Driver);
             HomePage = new HomePage(Driver);
-            LoginPage.ValidUserLogin(TestContext, TestContext.Properties["username"].ToString(), TestContext.Properties["password"].ToString());
+            LoginPage.ValidUserLogin(TestContext.Properties["username"].ToString(), TestContext.Properties["password"].ToString());
             HomePage.TestContext = TestContext;
             HomePage.VerifyQuickLaunchItems();
         }

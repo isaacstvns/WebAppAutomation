@@ -1,22 +1,54 @@
+# azure-pipelines.yml  (repo root)
 trigger:
 - main
 
 pool:
-  name: Default
+  name: Default   # your self-hosted pool
+
+variables:
+  BuildConfiguration: 'Release'
+  TestProject: '**/WebAppAutomation.csproj'
+  RunSettingsPath: '$(System.DefaultWorkingDirectory)/QAS.runsettings'
+  ResultsDir: '$(Common.TestResultsDirectory)'
 
 steps:
-- script: dotnet restore
-  displayName: 'Restore dependencies'
+- checkout: self
+  clean: true
 
-- script: dotnet build --configuration Release
-  displayName: 'Build solution'
+- script: |
+    echo CD=%CD%
+    echo RunSettings should be here: $(RunSettingsPath)
+    type "$(RunSettingsPath)"
+  displayName: Sanity: show QAS.runsettings
 
-- script: dotnet test --settings QAS.runsettings
-  displayName: 'Run tests'
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: '$(TestProject)'
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: build
+    projects: '$(TestProject)'
+    arguments: '--configuration $(BuildConfiguration) /warnaserror-'
+
+- task: DotNetCoreCLI@2
+  displayName: Test
+  inputs:
+    command: test
+    projects: '$(TestProject)'
+    arguments: >
+      --configuration $(BuildConfiguration)
+      --settings "$(RunSettingsPath)"
+      --logger "trx;LogFileName=TestResults.trx"
+      --results-directory "$(ResultsDir)"
 
 - task: PublishTestResults@2
+  displayName: Publish Test Results
   inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '**/TestResults/*.trx'
+    testResultsFormat: VSTest
+    testResultsFiles: '$(ResultsDir)/*.trx'
+    failTaskOnFailedTests: true
   condition: succeededOrFailed()
-  displayName: 'Publish Test Results'

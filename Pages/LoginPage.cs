@@ -20,7 +20,7 @@ namespace WebAppAutomation.Pages
         private By invalid_cred_msg => By.XPath("//p[text()='Invalid credentials']");
         /* Elments Ends Here */
 
-        internal void UserLoginFlow(TestContext context, string username, string password){
+        internal void UserLoginFlow(string username, string password){
             var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(90));
             wait.Until(ExpectedConditions.ElementIsVisible(usernmame_box));
             wait.Until(ExpectedConditions.ElementIsVisible(os_version));
@@ -29,15 +29,15 @@ namespace WebAppAutomation.Pages
             EnterText(password_box, password);
             ClickElement(login_btn);
         }
-        internal void ValidUserLogin(TestContext context, string username, string password)
+        internal void ValidUserLogin(string username, string password)
         {
-            UserLoginFlow(TestContext, username, password);
+            UserLoginFlow(username, password);
             Assert.AreEqual(GetText(dashboard_text), "Dashboard", "Dashboard Title Not Macthing");
         }
 
-        internal void InValidUserLogin(TestContext context, string username, string password)
+        internal void InValidUserLogin(string username, string password)
         {
-            UserLoginFlow(TestContext, username, password);
+            UserLoginFlow(username, password);
             Assert.AreEqual(GetText(invalid_cred_msg), "Invalid credentials", "Incorrect Invalid Credentials Error Message");
         }
 
