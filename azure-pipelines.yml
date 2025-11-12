@@ -1,46 +1,41 @@
-# azure-pipelines.yml
-# MSTest + Selenium on self-hosted Windows agent
+# azure-pipelines.yml — MSTest + Selenium (.NET) on self-hosted Windows agent
 
 trigger:
-- master   # or: - main
+- master
 
 pool:
   name: Default
 
 variables:
-  BuildConfiguration: 'Release'
-  RunSettingsPath: '$(Build.SourcesDirectory)\QAS.runsettings'
-  ResultsDir: '$(Common.TestResultsDirectory)'
+  BuildConfiguration: Release
 
 steps:
 - checkout: self
   clean: true
 
-# sanity: show the runsettings file (helps avoid null URL)
-- script: |
-    echo CD=%CD%
-    echo RUNSETTINGS: $(RunSettingsPath)
-    type "$(RunSettingsPath)"
-  displayName: Sanity: show QAS.runsettings
-
-- script: dotnet restore
+- task: DotNetCoreCLI@2
   displayName: Restore
+  inputs:
+    command: 'restore'
+    projects: '**/WebAppAutomation.csproj'
 
-- script: dotnet build --configuration $(BuildConfiguration)
+- task: DotNetCoreCLI@2
   displayName: Build
+  inputs:
+    command: 'build'
+    projects: '**/WebAppAutomation.csproj'
+    arguments: '--configuration $(BuildConfiguration)'
 
-- script: >
-    dotnet test
-    --configuration $(BuildConfiguration)
-    --settings "$(RunSettingsPath)"
-    --logger "trx;LogFileName=TestResults.trx"
-    --results-directory "$(ResultsDir)"
+- task: DotNetCoreCLI@2
   displayName: Test
+  inputs:
+    command: 'test'
+    projects: '**/WebAppAutomation.csproj'
+    arguments: '--configuration $(BuildConfiguration) --settings "$(Build.SourcesDirectory)/QAS.runsettings" --logger "trx;LogFileName=TestResults.trx" --results-directory "$(Common.TestResultsDirectory)"'
 
 - task: PublishTestResults@2
   displayName: Publish Test Results
   inputs:
-    testResultsFormat: VSTest
-    testResultsFiles: '$(ResultsDir)\*.trx'
-    failTaskOnFailedTests: true
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '$(Common.TestResultsDirectory)/*.trx'
   condition: succeededOrFailed()
