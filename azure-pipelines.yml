@@ -31,5 +31,21 @@ steps:
   inputs:
     command: test
     projects: '**/WebAppAutomation.csproj'
-    arguments: '--configuration Release --settings "$(Build.SourcesDirectory)/QAS.runsettings"'
-    publishTestResults: true
+    arguments: '--configuration Release --settings "$(Build.SourcesDirectory)/QAS.runsettings" --logger trx --results-directory "$(Pipeline.Workspace)/TestResults"'
+    # Note: I recommend removing 'publishTestResults: true' here as we'll use the dedicated task
+    # publishTestResults: true 
+
+- task: PublishTestResults@2
+  displayName: Publish Test Results
+  inputs:
+    # The default output format for dotnet test is 'VSTest' which uses .trx files.
+    testResultsFormat: 'VSTest'
+    
+    # Path to search for .trx files. This matches the directory specified above.
+    testResultsFiles: '$(Pipeline.Workspace)/TestResults/**/*.trx'
+    
+    # Optional: Gives the test run a custom title for clarity
+    testRunTitle: '$(Build.DefinitionName) - Automated UI Tests'
+    
+    # Optional: If you want to attach the results to the build itself
+    failTaskOnFailedTests: true
