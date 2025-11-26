@@ -22,7 +22,7 @@ namespace WebAppAutomation.Pages
             var actualLabels = ReturnListofItems(quick_launch_items);
             Assert.IsTrue(actualLabels.Count > 0, "Quick Launch Items are not displayed");
             //string labelsCsv = TestContext?.Properties["quickLaunchLabels"]?.ToString();
-            string labelsCsv = "Assign Leave,Leave List,Timesheets,Apply Leave,My Leave,My Timesheet";
+            string labelsCsv = "Assign Leave,Leave List,Timesheets,Apply Leave,My Leave,My Timesheetxxx";
             string[] expectedLabels = labelsCsv?.Split(',') ?? Array.Empty<string>();
             CollectionAssert.AreEqual(expectedLabels, actualLabels, "Quick Launch labels do not match");
         }
