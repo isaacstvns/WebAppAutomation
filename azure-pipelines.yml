@@ -27,16 +27,16 @@ steps:
       arguments: '--configuration Release'
 
   - task: DotNetCoreCLI@2
-  displayName: "Test"
-  inputs:
-    command: test
-    projects: '**/WebAppAutomation.csproj'
-    arguments: '--configuration Release -- --report-trx --report-trx-filename testresults.trx --results-directory "$(Build.SourcesDirectory)/TestResultsOutput"'
-    publishTestResults: false
+    displayName: "Test"
+    inputs:
+      command: test
+      projects: '**/WebAppAutomation.csproj'
+      arguments: '--configuration Release -- --report-trx --report-trx-filename testresults.trx --results-directory "$(Build.SourcesDirectory)/TestResultsOutput"'
+      publishTestResults: false
 
   - task: PublishTestResults@2
-  displayName: "Publish Test Results"
-  inputs:
-    testResultsFormat: VSTest
-    testResultsFiles: '$(Build.SourcesDirectory)/TestResultsOutput/testresults.trx'
-    failTaskOnFailedTests: true
+    displayName: "Publish Test Results"
+    inputs:
+      testResultsFormat: VSTest
+      testResultsFiles: '$(Build.SourcesDirectory)/TestResultsOutput/testresults.trx'
+      failTaskOnFailedTests: true
