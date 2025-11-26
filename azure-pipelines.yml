@@ -31,7 +31,12 @@ steps:
     inputs:
       command: test
       projects: '**/WebAppAutomation.csproj'
-      arguments: '--configuration Release --settings "$(Build.SourcesDirectory)/QAS.runsettings" --logger "trx;LogFileName=testresults.trx"'
+      arguments:
+        - --configuration Release
+        - --settings "$(Build.SourcesDirectory)/QAS.runsettings"
+        - --logger "trx;LogFileName=testresults.trx"
+        # Force the output into a known location right next to the project folder
+        - --results-directory "$(Build.SourcesDirectory)/TestResultsOutput"
       publishTestResults: false
 
   - task: CopyFiles@2
