@@ -31,25 +31,20 @@ steps:
     inputs:
       command: test
       projects: '**/WebAppAutomation.csproj'
-      arguments:
-        - --configuration Release
-        - --settings "$(Build.SourcesDirectory)/QAS.runsettings"
-        - --logger "trx;LogFileName=testresults.trx"
-        # Force the output into a known location right next to the project folder
-        - --results-directory "$(Build.SourcesDirectory)/TestResultsOutput"
+      arguments: '--configuration Release --logger "trx;LogFileName=testresults.trx" --results-directory "$(Build.SourcesDirectory)/TestResultsOutput"'
       publishTestResults: false
 
   - task: CopyFiles@2
     displayName: 'Copy Test Results'
     inputs:
       # Look for the .trx file anywhere in the source folder
-      contents: '**/testresults.trx'
+      contents: 'TestResultsOutput/testresults.trx'
       # Copy it to the staging directory
       targetFolder: '$(Build.ArtifactStagingDirectory)'
 
   - task: PublishTestResults@2
     displayName: "Publish Test Results"
     inputs:
-      testResultsFiles: '$(Build.ArtifactStagingDirectory)/testresults.trx'
       testResultsFormat: VSTest
+      testResultsFiles: '$(Build.ArtifactStagingDirectory)/testresults.trx'
       failTaskOnFailedTests: true
