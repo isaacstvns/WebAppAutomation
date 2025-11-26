@@ -31,7 +31,7 @@ steps:
   inputs:
     command: test
     projects: '**/WebAppAutomation.csproj'
-    arguments: >
+    arguments:
       --configuration Release
       --settings "$(Build.SourcesDirectory)/QAS.runsettings"
       --logger "trx;LogFileName=testresults.trx"
