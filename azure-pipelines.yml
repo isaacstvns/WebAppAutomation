@@ -27,19 +27,21 @@ steps:
       arguments: '--configuration Release'
 
   - task: DotNetCoreCLI@2
-  displayName: Test
-  inputs:
-    command: test
-    projects: '**/WebAppAutomation.csproj'
-    arguments:
-      --configuration Release
-      --settings "$(Build.SourcesDirectory)/QAS.runsettings"
-      --logger "trx;LogFileName=testresults.trx"
-    publishTestResults: false
+    displayName: Test
+    inputs:
+      command: test
+      projects: '**/WebAppAutomation.csproj'
+      # Using the YAML list syntax for multiline arguments (e.g., one argument per line starting with a hyphen)
+      arguments:
+        - --configuration Release
+        - --settings "$(Build.SourcesDirectory)/QAS.runsettings"
+        - --logger "trx;LogFileName=testresults.trx"
+      publishTestResults: false
 
+  # This task was previously misaligned (the error) and is now correctly indented under 'steps'
   - task: PublishTestResults@2
-  displayName: "Publish Test Results"
-  inputs:
-    testResultsFormat: VSTest
-    testResultsFiles: '**/testresults.trx'
-    failTaskOnFailedTests: true
+    displayName: "Publish Test Results"
+    inputs:
+      testResultsFormat: VSTest
+      testResultsFiles: '**/testresults.trx'
+      failTaskOnFailedTests: true
