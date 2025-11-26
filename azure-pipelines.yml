@@ -1,35 +1,42 @@
 trigger:
-- master
+  - master
 
 pool:
   name: Default
 
 steps:
-- checkout: self
-  clean: true
+  - checkout: self
+    clean: true
 
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '8.x'
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '8.x'
 
-- task: DotNetCoreCLI@2
-  displayName: Restore
-  inputs:
-    command: restore
-    projects: '**/WebAppAutomation.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: Restore
+    inputs:
+      command: restore
+      projects: '**/WebAppAutomation.csproj'
 
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    command: build
-    projects: '**/WebAppAutomation.csproj'
-    arguments: '--configuration Release'
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: '**/WebAppAutomation.csproj'
+      arguments: '--configuration Release'
 
-- task: DotNetCoreCLI@2
-  displayName: Test
-  inputs:
-    command: test
-    projects: '**/WebAppAutomation.csproj'
-    arguments: '--configuration Release --settings "$(Build.SourcesDirectory)/QAS.runsettings"'
-    publishTestResults: true
+  - task: DotNetCoreCLI@2
+    displayName: Test
+    inputs:
+      command: test
+      projects: '**/WebAppAutomation.csproj'
+      arguments: '--configuration Release --settings "$(Build.SourcesDirectory)/QAS.runsettings"'
+      publishTestResults: true
+
+  - task: PublishTestResults@2
+    displayName: "Publish Test Results"
+    inputs:
+      testResultsFiles: '**/TestResults/*.xml'
+      testRunner: VSTest
+      failTaskOnFailedTests: true
