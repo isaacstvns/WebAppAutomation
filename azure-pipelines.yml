@@ -37,7 +37,7 @@ steps:
       --logger "trx;LogFileName=testresults.trx"
     publishTestResults: false
 
-- task: PublishTestResults@2
+  - task: PublishTestResults@2
   displayName: "Publish Test Results"
   inputs:
     testResultsFormat: VSTest
