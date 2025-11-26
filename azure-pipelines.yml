@@ -27,16 +27,19 @@ steps:
       arguments: '--configuration Release'
 
   - task: DotNetCoreCLI@2
-    displayName: Test
-    inputs:
-      command: test
-      projects: '**/WebAppAutomation.csproj'
-      arguments: '--configuration Release --settings "$(Build.SourcesDirectory)/QAS.runsettings"'
-      publishTestResults: true
+  displayName: Test
+  inputs:
+    command: test
+    projects: '**/WebAppAutomation.csproj'
+    arguments: >
+      --configuration Release
+      --settings "$(Build.SourcesDirectory)/QAS.runsettings"
+      --logger "trx;LogFileName=testresults.trx"
+    publishTestResults: false
 
-  - task: PublishTestResults@2
-    displayName: "Publish Test Results"
-    inputs:
-      testResultsFiles: '**/TestResults/*.xml'
-      testRunner: VSTest
-      failTaskOnFailedTests: true
+- task: PublishTestResults@2
+  displayName: "Publish Test Results"
+  inputs:
+    testResultsFormat: VSTest
+    testResultsFiles: '**/testresults.trx'
+    failTaskOnFailedTests: true
