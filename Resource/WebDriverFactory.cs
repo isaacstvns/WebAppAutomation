@@ -31,7 +31,7 @@ namespace WebAppAutomation.Resource
             options.AddArgument("--start-maximized");
             options.AddArgument("--disable-gpu");
             options.AddArgument("--no-sandbox");
-
+            options.AddArgument("--headless=new");
             //bool headless = string.Equals(System.Environment.GetEnvironmentVariable("headless_mode"), "true", System.StringComparison.OrdinalIgnoreCase);
 
             //if (headless)

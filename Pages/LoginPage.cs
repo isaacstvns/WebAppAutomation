@@ -15,7 +15,7 @@ namespace WebAppAutomation.Pages
         private By usernmame_box => By.XPath("//input[@name='username']");
         private By password_box => By.XPath("//input[@name='password']");
         private By login_btn => By.XPath("//button[text()=' Login ']");
-        private By os_version => By.XPath("//p[text()='OrangeHRM OS 5.7']");
+        private By os_version => By.XPath("//p[text()='OrangeHRM OS 5.8']");
         private By dashboard_text => By.XPath("//h6[text()='Dashboard']");
         private By invalid_cred_msg => By.XPath("//p[text()='Invalid credentials']");
         /* Elments Ends Here */

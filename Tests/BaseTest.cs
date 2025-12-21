@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using WebAppAutomation.Resource;
 
 namespace WebAppAutomation.Tests
@@ -12,7 +7,7 @@ namespace WebAppAutomation.Tests
     [TestCategory("BaseTest")]
     public class BaseTest
     {
-        protected IWebDriver Driver {  get;  set; }
+        protected static IWebDriver Driver => DriverContext.GetDriver();
         public TestContext TestContext { get;  set; }
 
         [TestInitialize]
@@ -20,7 +15,19 @@ namespace WebAppAutomation.Tests
         {
             var factory = new WebDriverFactory();
 
-            Driver = factory.Create(BrowserType.Chrome);
+            IWebDriver intance = factory.Create(BrowserType.Chrome);
+
+            DriverContext.SetDriver(intance);
+
+            // --- VERIFICATION LOGGING ---
+            int threadId = Thread.CurrentThread.ManagedThreadId;
+            int driverHash = Driver.GetHashCode(); // Unique ID for this specific driver object
+
+            TestContext.WriteLine("***********************************************");
+            TestContext.WriteLine($"TEST NAME: {TestContext.TestName}");
+            TestContext.WriteLine($"THREAD ID: {threadId}");
+            TestContext.WriteLine($"DRIVER HASH: {driverHash}");
+            TestContext.WriteLine("***********************************************");
 
             Driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
         }
@@ -28,9 +35,7 @@ namespace WebAppAutomation.Tests
         [TestCleanup]
         public void TearDown()
         {
-            Driver.Close();
-            Driver.Quit();
-            Driver.Dispose();
+            DriverContext.QuitDriver();
         }
     }
 }

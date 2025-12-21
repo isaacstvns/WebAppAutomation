@@ -4,7 +4,10 @@
 		<TargetFrameworkVersion>net8.0</TargetFrameworkVersion>
 	</RunConfiguration>
 	<MSTest>
-		<Parallelize Workers="1" Scope="Class"/>
+		<Parallelize>
+			<Workers>3</Workers>
+			<Scope>MethodLevel</Scope>
+		</Parallelize>
 	</MSTest>
 	
 	<TestRunParameters>
