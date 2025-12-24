@@ -3,6 +3,8 @@ trigger:
 
 pool:
   name: Default
+  demands:
+    - agent.os -equals Linux
 
 steps:
   - checkout: self
