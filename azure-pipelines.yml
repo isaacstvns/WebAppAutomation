@@ -1,6 +1,8 @@
 trigger:
   - master
 
+variables:
+ - group: 'WebAppAutomation-Secrets'
 pool:
   name: Default
   demands:
@@ -35,6 +37,10 @@ steps:
       projects: '**/WebAppAutomation.csproj'
       arguments: '--configuration Release -- --report-trx --report-trx-filename testresults.trx --results-directory "$(Build.SourcesDirectory)/TestResultsOutput"'
       publishTestResults: false
+    env:
+      VALID_USERNAME: $(valid_username)
+      VALID_PASSWORD: $(valid_password)
+      INVALID_PASSWORD: $(invalid_password)
 
   - task: PublishTestResults@2
     displayName: "Publish Test Results"
