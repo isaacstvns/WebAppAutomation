@@ -14,9 +14,13 @@ namespace WebAppAutomation.Pages
 
         private By menu_item_PIM => By.XPath("(//a[@class='oxd-main-menu-item'])[2]");
 
-        private By admin_page_title => By.XPath("//span[@class='oxd-topbar-header-breadcrumb']");
+        private By menu_item_leave => By.XPath("(//a[@class='oxd-main-menu-item'])[3]");
+
+        private By admin_page_title => By.XPath("//h6[@class='oxd-text oxd-text--h6 oxd-topbar-header-breadcrumb-module']");
 
         private By pim_page_title => By.XPath("//span[@class='oxd-topbar-header-breadcrumb']");
+
+        private By leave_page_title => By.XPath("//span[@class='oxd-topbar-header-breadcrumb']");
         /* Elments Ends Here */
 
         internal void VerifyQuickLaunchItems()
@@ -39,14 +43,24 @@ namespace WebAppAutomation.Pages
             ClickElement(menu_item_PIM);
         }
 
+        internal void navigateToLeave()
+        {
+            ClickElement(menu_item_leave);
+        }
+
         internal void validateAdminPageTitle()
         {
-            Assert.AreEqual(GetText(admin_page_title), "Admin / User Management", "Admin Page Title Not Macthing");
+            Assert.AreEqual(GetText(admin_page_title), "Admin", "Admin Page Title Not Macthing");
         }
 
         internal void validatePIMPageTitle()
         {
             Assert.AreEqual(GetText(pim_page_title), "PIM", "Admin Page Title Not Macthing");
+        }
+
+        internal void validateLeavePageTitle()
+        {
+            Assert.AreEqual(GetText(leave_page_title), "Leave", "Admin Page Title Not Macthing");
         }
     }
 }

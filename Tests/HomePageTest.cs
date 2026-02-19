@@ -49,5 +49,17 @@ namespace WebAppAutomation.Tests
             HomePage.navigateToPIM();
             HomePage.validatePIMPageTitle();
         }
+
+        [TestMethod]
+        public void VerifyLeavePageTitle()
+        {
+            LoginPage = new LoginPage(Driver);
+            HomePage = new HomePage(Driver);
+            string username = Environment.GetEnvironmentVariable("VALID_USERNAME");
+            string password = Environment.GetEnvironmentVariable("VALID_PASSWORD");
+            LoginPage.ValidUserLogin(username, password);
+            HomePage.navigateToLeave();
+            HomePage.validateLeavePageTitle();
+        }
     }
 }
