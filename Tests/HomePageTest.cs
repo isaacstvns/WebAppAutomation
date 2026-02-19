@@ -26,6 +26,7 @@ namespace WebAppAutomation.Tests
             HomePage.VerifyQuickLaunchItems();
         }
 
+        [TestMethod]
         public void VerifyAdminPageTitle()
         {
             LoginPage = new LoginPage(Driver);
@@ -37,6 +38,7 @@ namespace WebAppAutomation.Tests
             HomePage.validateAdminPageTitle();
         }
 
+        [TestMethod]
         public void VerifyPIMPageTitle()
         {
             LoginPage = new LoginPage(Driver);
