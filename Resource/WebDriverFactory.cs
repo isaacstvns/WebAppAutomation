@@ -32,6 +32,7 @@ namespace WebAppAutomation.Resource
             options.AddArgument("--disable-gpu");
             options.AddArgument("--no-sandbox");
             options.AddArgument("--headless=new");
+            options.AddArgument("--window-size=1920,1080");
             //bool headless = string.Equals(System.Environment.GetEnvironmentVariable("headless_mode"), "true", System.StringComparison.OrdinalIgnoreCase);
 
             //if (headless)

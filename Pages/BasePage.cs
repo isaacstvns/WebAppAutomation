@@ -27,7 +27,7 @@ namespace WebAppAutomation.Pages
             }
             catch
             {
-                throw new TimeoutException($"WaaitForElementClickable timed out after {timeoutInSeconds} seconds. ");
+                throw new TimeoutException($"WaitForElementClickable timed out after {timeoutInSeconds} seconds. ");
             }
         }
 

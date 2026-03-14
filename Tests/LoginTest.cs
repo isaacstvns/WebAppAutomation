@@ -12,8 +12,8 @@ namespace WebAppAutomation.Tests
 		public void Login_ValidLogin()
 		{
 			LoginPage = new LoginPage(Driver);
-            string username = Environment.GetEnvironmentVariable("VALID_USERNAME");
-            string password = Environment.GetEnvironmentVariable("VALID_PASSWORD");
+            string username = Environment.GetEnvironmentVariable("VALID_USERNAME") ?? "Admin";
+            string password = Environment.GetEnvironmentVariable("VALID_PASSWORD") ?? "admin123";
             LoginPage.ValidUserLogin(username, password);
         }
 
@@ -21,8 +21,8 @@ namespace WebAppAutomation.Tests
         public void Login_InValidLogin()
         {
             LoginPage = new LoginPage(Driver);
-            string username = Environment.GetEnvironmentVariable("VALID_USERNAME");
-            string invalidPassword = Environment.GetEnvironmentVariable("INVALID_PASSWORD");
+            string username = Environment.GetEnvironmentVariable("VALID_USERNAME") ?? "Admin";
+            string invalidPassword = Environment.GetEnvironmentVariable("INVALID_PASSWORD") ?? "admin125";
             LoginPage.InValidUserLogin(username, invalidPassword);
         }
     }

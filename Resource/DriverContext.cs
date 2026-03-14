@@ -12,7 +12,7 @@ namespace WebAppAutomation.Resource
         private static ThreadLocal<IWebDriver> _driver = new ThreadLocal<IWebDriver>();
 
 
-        public static IWebDriver GetDriver() => _driver.Value;
+        public static IWebDriver GetDriver() => _driver.Value ?? throw new NullReferenceException("The WebDriver has not been initialized. Did you forget to call SetDriver?");
 
         public static void SetDriver(IWebDriver driver) => _driver.Value = driver;
 

@@ -19,8 +19,8 @@ namespace WebAppAutomation.Tests
         {
             LoginPage = new LoginPage(Driver);
             HomePage = new HomePage(Driver);
-            string username = Environment.GetEnvironmentVariable("VALID_USERNAME");
-            string password = Environment.GetEnvironmentVariable("VALID_PASSWORD");
+            string username = Environment.GetEnvironmentVariable("VALID_USERNAME") ?? "Admin";
+            string password = Environment.GetEnvironmentVariable("VALID_PASSWORD") ?? "admin123";
             LoginPage.ValidUserLogin(username, password);
             HomePage.TestContext = TestContext;
             HomePage.VerifyQuickLaunchItems();
@@ -31,8 +31,8 @@ namespace WebAppAutomation.Tests
         {
             LoginPage = new LoginPage(Driver);
             HomePage = new HomePage(Driver);
-            string username = Environment.GetEnvironmentVariable("VALID_USERNAME");
-            string password = Environment.GetEnvironmentVariable("VALID_PASSWORD");
+            string username = Environment.GetEnvironmentVariable("VALID_USERNAME") ?? "Admin";
+            string password = Environment.GetEnvironmentVariable("VALID_PASSWORD") ?? "admin123";
             LoginPage.ValidUserLogin(username, password);
             HomePage.navigateToAdmin();
             HomePage.validateAdminPageTitle();
@@ -43,8 +43,8 @@ namespace WebAppAutomation.Tests
         {
             LoginPage = new LoginPage(Driver);
             HomePage = new HomePage(Driver);
-            string username = Environment.GetEnvironmentVariable("VALID_USERNAME");
-            string password = Environment.GetEnvironmentVariable("VALID_PASSWORD");
+            string username = Environment.GetEnvironmentVariable("VALID_USERNAME") ?? "Admin";
+            string password = Environment.GetEnvironmentVariable("VALID_PASSWORD") ?? "admin123";
             LoginPage.ValidUserLogin(username, password);
             HomePage.navigateToPIM();
             HomePage.validatePIMPageTitle();
@@ -55,8 +55,8 @@ namespace WebAppAutomation.Tests
         {
             LoginPage = new LoginPage(Driver);
             HomePage = new HomePage(Driver);
-            string username = Environment.GetEnvironmentVariable("VALID_USERNAME");
-            string password = Environment.GetEnvironmentVariable("VALID_PASSWORD");
+            string username = Environment.GetEnvironmentVariable("VALID_USERNAME") ?? "Admin";
+            string password = Environment.GetEnvironmentVariable("VALID_PASSWORD") ?? "admin123";
             LoginPage.ValidUserLogin(username, password);
             HomePage.navigateToLeave();
             HomePage.validateLeavePageTitle();
